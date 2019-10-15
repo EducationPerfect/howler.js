@@ -1,6 +1,6 @@
 {
   "name": "@educationperfect/howler",
-  "version": "2.1.0-beta.2",
+  "version": "2.1.0-beta.3",
   "description": "Javascript audio library for the modern web.",
   "homepage": "https://howlerjs.com",
   "keywords": [
@@ -36,7 +36,8 @@
     "dist/howler.min.js",
     "dist/howler.core.min.js",
     "dist/howler.spatial.min.js",
-    "LICENSE.md"
+    "LICENSE.md",
+    "index.d.ts"
   ],
   "bugs": {
     "url": "https://github.com/goldfire/howler.js/issues"
