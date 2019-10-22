@@ -1761,6 +1761,22 @@
     },
 
     /**
+     * Cancel load.
+     * @return {Howler}
+     */
+    cancelLoad: function() {
+      var self = this;
+      
+      if (xhrs) {
+        var xhr = xhrs[self._src];
+        if(xhr) xhr.abort();
+        delete xhrs[self._src];
+      }
+
+      return self;
+    },
+
+    /**
      * Listen to a custom event.
      * @param  {String}   event Event name.
      * @param  {Function} fn    Listener to call.
@@ -2294,6 +2310,7 @@
   /***************************************************************************/
 
   var cache = {};
+  var xhrs = {};
 
   /**
    * Buffer a sound from URL, Data URI or cache and decode to audio source (Web Audio API).
@@ -2325,10 +2342,12 @@
     } else {
       // Load the buffer from the URL.
       var xhr = new XMLHttpRequest();
+      xhrs[url] = xhr;
       xhr.open('GET', url, true);
       xhr.withCredentials = self._xhrWithCredentials;
       xhr.responseType = 'arraybuffer';
       xhr.onload = function() {
+        delete xhrs[url];
         // Make sure we get a successful response back.
         var code = (xhr.status + '')[0];
         if (code !== '0' && code !== '2' && code !== '3') {
@@ -2339,6 +2358,7 @@
         decodeAudioData(xhr.response, self);
       };
       xhr.onerror = function() {
+        delete xhrs[url];
         // If there is an error, switch to HTML5 Audio.
         if (self._webAudio) {
           self._html5 = true;
